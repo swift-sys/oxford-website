@@ -1,40 +1,139 @@
+import { useEffect, useState } from "react";
 import "../styles/maintenance.css";
 
+type ServiceStatus =
+  | "operational"
+  | "degraded"
+  | "outage"
+  | "unknown";
+
 export default function Maintenance() {
+  const [status, setStatus] =
+    useState<ServiceStatus>("unknown");
+
+  useEffect(() => {
+    async function fetchStatus() {
+      try {
+        const response = await fetch("/api/status");
+
+        if (!response.ok) {
+          throw new Error("Status API unavailable");
+        }
+
+        const data = await response.json();
+
+        if (
+          data.status === "operational" ||
+          data.status === "degraded" ||
+          data.status === "outage"
+        ) {
+          setStatus(data.status);
+        } else {
+          setStatus("unknown");
+        }
+      } catch {
+        setStatus("unknown");
+      }
+    }
+
+    fetchStatus();
+
+    const interval = setInterval(fetchStatus, 30_000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const statusText = {
+    operational: "All systems operational",
+    degraded: "Some systems degraded",
+    outage: "Service outage",
+    unknown: "Checking system status...",
+  }[status];
+
   return (
-    <main className="maintenance-page">
-      <div className="maintenance-glow" />
+    <main className="swft-page">
+      <div className="swft-grid" />
+      <div className="swft-glow swft-glow-one" />
+      <div className="swft-glow swft-glow-two" />
 
-      <div className="maintenance-wrap">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="maintenance-icon"
+      <header className="swft-header">
+        <a href="/" className="swft-brand">
+          <div className="swft-brand-mark">
+            <span>S</span>
+          </div>
+
+          <span className="swft-brand-name">
+            Swift
+          </span>
+        </a>
+
+        <a
+          href="/support"
+          className="swft-header-link"
         >
-          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-          <path d="M12 9v4" />
-          <path d="M12 17h.01" />
-        </svg>
+          Support
+        </a>
+      </header>
 
-        <p>This website is currently undergoing changes.</p>
+      <section className="maintenance-content">
+        <div className="maintenance-card">
+          <div className="maintenance-status">
+            <span className="maintenance-status-dot" />
+            Maintenance in progress
+          </div>
 
-        <div className="maintenance-actions">
-          <a className="maintenance-button" href="/support">
-            Support
-          </a>
+          <h1>
+            We&apos;re making
+            <span> Swift better.</span>
+          </h1>
+
+          <p className="maintenance-description">
+            Our website is currently undergoing updates
+            and improvements. We&apos;ll be back shortly.
+          </p>
+
+          <div className="maintenance-divider" />
+
+          <div className="maintenance-actions">
+            <a
+              href="/support"
+              className="maintenance-primary"
+            >
+              Get support
+
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="m13 6 6 6-6 6" />
+              </svg>
+            </a>
+
+            <span className="maintenance-domain">
+              swft-bot.xyz
+            </span>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="maintenance-domain">
-        swft-bot.xyz
-      </div>
+      <footer className="swft-footer">
+        <span>© 2026 Swift</span>
+
+        <div className="swft-footer-right">
+          <span
+            className={`swft-footer-dot status-${status}`}
+          />
+
+          {statusText}
+        </div>
+      </footer>
     </main>
   );
 }

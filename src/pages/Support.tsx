@@ -4,7 +4,9 @@ import "../styles/support.css";
 export default function Support() {
   useEffect(() => {
     const timer = setTimeout(() => {
-      window.location.replace("https://discord.gg/f4MnhnQcMT");
+      window.location.replace(
+        "https://discord.gg/f4MnhnQcMT",
+      );
     }, 1500);
 
     return () => clearTimeout(timer);
@@ -12,6 +14,7 @@ export default function Support() {
 
   return (
     <main className="support-page">
+      <div className="support-grid" />
       <div className="support-glow" />
 
       <div className="support-wrap">
@@ -20,14 +23,16 @@ export default function Support() {
         <h1>Redirecting...</h1>
 
         <p>
-          You&apos;re being redirected to the Swift support server.
+          You&apos;re being redirected to the Swift
+          support server.
         </p>
 
         <a
           href="https://discord.gg/f4MnhnQcMT"
           className="support-link"
         >
-          Click here if you aren&apos;t redirected automatically.
+          Click here if you aren&apos;t redirected
+          automatically.
         </a>
       </div>
 

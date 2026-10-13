@@ -3,21 +3,42 @@ import "../styles/notfound.css";
 export default function NotFound() {
   return (
     <main className="notfound-page">
+      <div className="notfound-grid" />
       <div className="notfound-glow" />
 
-      <div className="notfound-wrap">
-        <div className="notfound-code">404</div>
+      <section className="notfound-wrap">
+        <span className="notfound-label">
+          ERROR 404
+        </span>
 
-        <h1>Page not found</h1>
+        <h1>
+          This page doesn&apos;t
+          <span> exist.</span>
+        </h1>
 
         <p>
-          The page you&apos;re looking for doesn&apos;t exist or may have been moved.
+          The page you&apos;re looking for may have been
+          moved, deleted, or never existed.
         </p>
 
         <a href="/" className="notfound-button">
-          Go home
+          Return home
+
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M5 12h14" />
+            <path d="m13 6 6 6-6 6" />
+          </svg>
         </a>
-      </div>
+      </section>
 
       <div className="notfound-domain">
         swft-bot.xyz
