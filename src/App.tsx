@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 
 import Maintenance from "./pages/Maintenance";
+import Support from "./pages/Support";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
@@ -14,6 +15,11 @@ export default function App() {
         <Route
           path="/"
           element={<Maintenance />}
+        />
+
+        <Route
+          path="/support"
+          element={<Support />}
         />
 
         <Route
