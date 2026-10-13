@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 
 import Maintenance from "./pages/Maintenance";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -13,6 +14,11 @@ export default function App() {
         <Route
           path="/"
           element={<Maintenance />}
+        />
+
+        <Route
+          path="*"
+          element={<NotFound />}
         />
       </Routes>
     </BrowserRouter>
