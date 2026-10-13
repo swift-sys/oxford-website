@@ -12,20 +12,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<Maintenance />}
-        />
-
-        <Route
-          path="/support"
-          element={<Support />}
-        />
-
-        <Route
-          path="*"
-          element={<NotFound />}
-        />
+        <Route path="/" element={<Maintenance />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
