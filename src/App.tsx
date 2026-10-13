@@ -5,7 +5,6 @@ import {
 } from "react-router-dom";
 
 import Maintenance from "./pages/Maintenance";
-import Team from "./pages/Team";
 
 export default function App() {
   return (
@@ -14,11 +13,6 @@ export default function App() {
         <Route
           path="/"
           element={<Maintenance />}
-        />
-
-        <Route
-          path="/team"
-          element={<Team />}
         />
       </Routes>
     </BrowserRouter>
