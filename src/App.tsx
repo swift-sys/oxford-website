@@ -6,6 +6,7 @@ import {
 
 import Maintenance from "./pages/Maintenance";
 import Support from "./pages/Support";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Maintenance />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/terms" element={<Terms />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
