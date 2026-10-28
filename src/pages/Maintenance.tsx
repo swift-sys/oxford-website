@@ -12,14 +12,7 @@ export default function Maintenance() {
         <div className="maintenance-grid" />
       </div>
 
-      <section className="maintenance-hero">
-        <div className="maintenance-content">
-          <span className="maintenance-badge">
-            <span className="maintenance-status-dot" />
-            UNDER CONSTRUCTION
-          </span>
-
-          <h1>
+            <h1>
             Something better
             <br />
             is <span>on the way.</span>
