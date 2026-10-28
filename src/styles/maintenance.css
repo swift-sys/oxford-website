@@ -1,3 +1,4 @@
+```css
 * {
   box-sizing: border-box;
 }
@@ -27,18 +28,56 @@ a {
 
 .maintenance-page {
   position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 100vh;
+  min-height: 100svh;
   overflow: hidden;
   background: #020b09;
 }
 
+/* Background image */
 .maintenance-background {
   position: absolute;
+  z-index: -1;
   inset: 0;
   overflow: hidden;
+  background: #020b09;
 }
 
+.maintenance-image {
+  position: absolute;
+  inset: -12px;
+  background-image: url("/fire-scene.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(7px) brightness(0.48) saturate(0.9);
+  transform: scale(1.04);
+}
+
+/* Dark overlay for text readability */
+.maintenance-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(2, 7, 12, 0.42) 0%,
+      rgba(2, 7, 12, 0.58) 50%,
+      rgba(2, 7, 12, 0.82) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(2, 7, 12, 0.3) 0%,
+      transparent 50%,
+      rgba(2, 7, 12, 0.3) 100%
+    );
+}
+
+/* Subtle background grid */
 .maintenance-grid {
   position: absolute;
   inset: 0;
@@ -46,10 +85,11 @@ a {
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 56px 56px;
-  opacity: 0.45;
+  opacity: 0.35;
   pointer-events: none;
 }
 
+/* Ambient red and blue lighting */
 .maintenance-glow {
   position: absolute;
   border-radius: 50%;
@@ -62,7 +102,7 @@ a {
   height: 460px;
   left: -140px;
   top: -40px;
-  background: rgba(0, 180, 120, 0.18);
+  background: rgba(255, 30, 55, 0.2);
 }
 
 .maintenance-glow-right {
@@ -70,88 +110,169 @@ a {
   height: 380px;
   right: -120px;
   bottom: -100px;
-  background: rgba(0, 180, 120, 0.12);
+  background: rgba(35, 75, 255, 0.2);
 }
 
-.maintenance-header {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  padding: 22px 28px;
-}
-
-.maintenance-support-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 38px;
-  padding: 0 18px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.035);
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition:
-    background 160ms ease,
-    border-color 160ms ease,
-    transform 160ms ease;
-}
-
-.maintenance-support-button:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.22);
-  transform: translateY(-1px);
-}
-
+/* Main hero section */
 .maintenance-hero {
   position: relative;
-  z-index: 2;
-  min-height: calc(100vh - 82px);
+  z-index: 1;
+  flex: 1;
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 24px 100px;
+  padding: 60px 24px;
 }
 
 .maintenance-content {
-  text-align: center;
+  width: 100%;
   max-width: 900px;
+  text-align: center;
+  animation: maintenance-fade-in 900ms ease both;
 }
 
+/* Status badge */
+.maintenance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 17px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.maintenance-status-dot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #ff243d;
+  box-shadow: 0 0 12px rgba(255, 36, 61, 0.9);
+  animation: maintenance-pulse 1.8s ease-in-out infinite;
+}
+
+/* Heading */
 .maintenance-content h1 {
-  margin: 0;
+  margin: 32px 0 0;
   font-size: clamp(48px, 7vw, 92px);
-  line-height: 0.95;
-  font-weight: 700;
+  line-height: 0.98;
+  font-weight: 800;
   letter-spacing: -0.06em;
   color: #f3f4f6;
+  text-shadow: 0 5px 35px rgba(0, 0, 0, 0.35);
 }
 
+.maintenance-content h1 span {
+  color: #ff3048;
+  text-shadow: 0 0 35px rgba(255, 36, 61, 0.25);
+}
+
+/* Description */
 .maintenance-content p {
   margin: 26px 0 0;
-  font-size: clamp(16px, 1.6vw, 24px);
+  font-size: clamp(16px, 1.6vw, 20px);
   font-weight: 400;
-  line-height: 1.6;
-  color: rgba(220, 230, 235, 0.62);
+  line-height: 1.8;
+  color: rgba(235, 238, 245, 0.78);
 }
 
+/* Accent divider */
+.maintenance-divider {
+  width: 54px;
+  height: 2px;
+  margin: 32px auto 0;
+  background: #ff243d;
+  box-shadow: 0 0 15px rgba(255, 36, 61, 0.6);
+}
+
+/* Animations */
+@keyframes maintenance-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes maintenance-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 12px rgba(255, 36, 61, 0.9);
+  }
+
+  50% {
+    opacity: 0.55;
+    box-shadow: 0 0 4px rgba(255, 36, 61, 0.4);
+  }
+}
+
+/* Responsive styles */
 @media (max-width: 768px) {
-  .maintenance-header {
-    padding: 18px 18px 0;
+  .maintenance-image {
+    background-position: 55% center;
+    filter: blur(6px) brightness(0.4) saturate(0.85);
+  }
+
+  .maintenance-glow-left {
+    width: 300px;
+    height: 300px;
+  }
+
+  .maintenance-glow-right {
+    width: 260px;
+    height: 260px;
   }
 
   .maintenance-hero {
-    min-height: calc(100vh - 64px);
-    padding: 30px 20px 80px;
+    padding: 40px 20px;
+  }
+
+  .maintenance-content h1 {
+    margin-top: 28px;
+    font-size: clamp(42px, 9vw, 68px);
+    letter-spacing: -0.045em;
   }
 
   .maintenance-content p {
     margin-top: 20px;
+    font-size: 15px;
   }
 }
+
+@media (max-width: 420px) {
+  .maintenance-badge {
+    padding: 10px 13px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .maintenance-content h1 {
+    font-size: clamp(38px, 10vw, 48px);
+  }
+
+  .maintenance-content p {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .maintenance-content,
+  .maintenance-status-dot {
+    animation: none;
+  }
+}
+```
