@@ -5,7 +5,7 @@ import {
   Routes,
 } from "react-router-dom";
 
-import { disableDevTools } from "./src/utils/disableDevTools";
+import { disableDevTools } from "./utils/disableDevTools";
 
 import Maintenance from "./pages/Maintenance";
 import Support from "./pages/Support";
