@@ -1,4 +1,3 @@
-```tsx
 import "../styles/maintenance.css";
 
 export default function Maintenance() {
@@ -38,4 +37,3 @@ export default function Maintenance() {
     </main>
   );
 }
-```
