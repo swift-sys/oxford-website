@@ -1,8 +1,11 @@
+import { useEffect } from "react";
 import {
   BrowserRouter,
   Route,
   Routes,
 } from "react-router-dom";
+
+import { disableDevTools } from "./src/utils/disableDevTools";
 
 import Maintenance from "./pages/Maintenance";
 import Support from "./pages/Support";
@@ -11,6 +14,10 @@ import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
+  useEffect(() => {
+    return disableDevTools();
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
