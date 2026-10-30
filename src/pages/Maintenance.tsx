@@ -15,7 +15,7 @@ export default function Maintenance() {
       {/* Oxford Roleplay Logo */}
       <div className="maintenance-corner-logo">
         <img
-          src="/OXFORDROLEPLAY.png"
+          src="/CLRPC.png"
           alt="Oxford Roleplay"
         />
       </div>
@@ -25,9 +25,9 @@ export default function Maintenance() {
         <div className="maintenance-accent-line" />
 
         <h1>
-          Something better
+          This website
           <br />
-          <span>is on the way.</span>
+          <span>is under maintenance.</span>
         </h1>
 
         <p className="maintenance-description">
