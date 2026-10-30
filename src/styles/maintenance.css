@@ -246,6 +246,40 @@
 }
 
 /* ========================================
+   DEVELOPER WATERMARK — DUCKY
+======================================== */
+
+.maintenance-watermark {
+  position: fixed;
+  bottom: 16px;
+  left: 20px;
+  z-index: 100;
+
+  color: rgba(255, 255, 255, 0.6);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+
+  user-select: none;
+  animation: maintenance-content-in 0.9s ease both;
+}
+
+.maintenance-watermark a,
+.maintenance-watermark a:visited,
+.maintenance-watermark a:active {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.maintenance-watermark a:hover {
+  color: #ffffff;
+  opacity: 0.65;
+}
+
+/* ========================================
    ANIMATIONS
 ======================================== */
 
@@ -327,6 +361,13 @@
     height: 250px;
     filter: blur(80px);
   }
+
+  /* Mobile watermark */
+  .maintenance-watermark {
+    bottom: 12px;
+    left: 14px;
+    font-size: 11px;
+  }
 }
 
 /* ========================================
@@ -336,7 +377,8 @@
 @media (prefers-reduced-motion: reduce) {
   .maintenance-glow,
   .maintenance-content,
-  .maintenance-corner-logo {
+  .maintenance-corner-logo,
+  .maintenance-watermark {
     animation: none;
   }
 
@@ -346,6 +388,10 @@
 
   .maintenance-corner-logo,
   .maintenance-corner-logo:hover {
+    transition: none;
+  }
+
+  .maintenance-watermark a {
     transition: none;
   }
 }
