@@ -1,3 +1,4 @@
+```tsx
 import "../styles/maintenance.css";
 
 export default function Maintenance() {
@@ -14,10 +15,7 @@ export default function Maintenance() {
 
       {/* Oxford Roleplay Logo */}
       <div className="maintenance-corner-logo">
-        <img
-          src="/clrpc_wm.png"
-          alt="Oxford Roleplay"
-        />
+        <img src="/clrpc_wm.png" alt="Oxford Roleplay" />
       </div>
 
       {/* Main Content */}
@@ -45,6 +43,19 @@ export default function Maintenance() {
 
       {/* Bottom Accent */}
       <div className="maintenance-bottom-accent" />
+
+      {/* Developer Watermark */}
+      <div className="maintenance-watermark">
+        Coded by{" "}
+        <a
+          href="https://github.com/duckyvxbes"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          [Ducky]
+        </a>
+      </div>
     </main>
   );
 }
+```
