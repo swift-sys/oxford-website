@@ -51,7 +51,7 @@ export default function Maintenance() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          [Ducky]
+          Ducky
         </a>
       </div>
     </main>
