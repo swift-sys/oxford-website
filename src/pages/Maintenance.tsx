@@ -15,7 +15,7 @@ export default function Maintenance() {
       {/* Oxford Roleplay Logo */}
       <div className="maintenance-corner-logo">
         <img
-          src="/CLRPC.png"
+          src="/clrpc_wm.png"
           alt="Oxford Roleplay"
         />
       </div>
