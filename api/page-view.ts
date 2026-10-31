@@ -25,7 +25,7 @@ export default async function handler(
     discordUrl.searchParams.set("with_components", "true");
 
     const content = [
-      "# Website Page View",
+      "## Website Page View",
       "",
       `**Page:** ${url}`,
       `**Title:** ${String(title || "Unknown")}`,
@@ -43,8 +43,14 @@ export default async function handler(
         flags: 32768,
         components: [
           {
-            type: 10,
-            content: content.slice(0, 4000),
+            type: 17,
+            accent_color: 3447003,
+            components: [
+              {
+                type: 10,
+                content: content.slice(0, 4000),
+              },
+            ],
           },
         ],
       }),
