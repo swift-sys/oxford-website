@@ -17,7 +17,7 @@ import {
   X,
 } from "lucide-react";
 
-import "./Admin.css";
+import "./admin.css";
 
 type ApiResponse = {
   ips?: string[];
