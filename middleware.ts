@@ -144,8 +144,7 @@ export default async function middleware(
     const blocked =
       data.is_vpn === true ||
       data.is_proxy === true ||
-      data.is_tor === true ||
-      data.is_datacenter === true;
+      data.is_tor === true;
 
     if (blocked) {
       console.log("Visitor blocked by IP detection:", {
