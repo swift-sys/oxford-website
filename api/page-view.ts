@@ -44,7 +44,7 @@ export default async function handler(
         components: [
           {
             type: 17,
-            accent_color: 3447003,
+            accent_color: 1400269,
             components: [
               {
                 type: 10,
