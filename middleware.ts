@@ -6,18 +6,6 @@ export const config = {
   matcher: "/:path*",
 };
 
-function getRedis(): Redis | null {
-  const url = process.env.clrpc_KV_REST_API_URL;
-  const token = process.env.clrpc_KV_REST_API_TOKEN;
-
-  if (!url || !token) {
-    console.error("Redis environment variables are missing");
-    return null;
-  }
-
-  return new Redis({ url, token });
-}
-
 function getClientIp(request: Request): string | null {
   const rawIp =
     request.headers.get("x-real-ip") ??
@@ -80,14 +68,18 @@ export default async function middleware(
     return denied(403, "We could not verify your IP address.");
   }
 
-  const redis = getRedis();
+  const redisUrl = process.env.clrpc_KV_REST_API_URL;
+  const redisToken = process.env.clrpc_KV_REST_API_TOKEN;
 
-  if (!redis) {
-    return denied(
-      503,
-      "Access verification is temporarily unavailable.",
-    );
+  if (!redisUrl || !redisToken) {
+    console.error("Redis environment variables are missing");
+    return denied(503, "Access verification is temporarily unavailable.");
   }
+
+  const redis = new Redis({
+    url: redisUrl,
+    token: redisToken,
+  });
 
   try {
     const allowed = await redis.sismember("vpn:allowlist", ip);
@@ -97,68 +89,65 @@ export default async function middleware(
     }
   } catch (error) {
     console.error("Redis allowlist check failed:", error);
-    return denied(
-      503,
-      "Access verification is temporarily unavailable.",
-    );
+    return denied(503, "Access verification is temporarily unavailable.");
   }
 
-  const token = process.env.IPINFO_TOKEN;
+  const apiKey = process.env.IPAPI_KEY;
 
-  if (!token) {
-    console.error("IPINFO_TOKEN is not configured");
-    return denied(
-      503,
-      "Access verification is temporarily unavailable.",
-    );
+  if (!apiKey) {
+    console.error("IPAPI_KEY is not configured");
+    return denied(503, "Access verification is temporarily unavailable.");
   }
 
   try {
-    const response = await fetch(
-      `https://api.ipinfo.io/lookup/${encodeURIComponent(ip)}?token=${encodeURIComponent(token)}`,
-      {
-        headers: { Accept: "application/json" },
-        signal: AbortSignal.timeout(5000),
-        cache: "no-store",
+    const response = await fetch("https://api.ipapi.is/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-    );
+      body: JSON.stringify({
+        q: ip,
+        key: apiKey,
+      }),
+      signal: AbortSignal.timeout(7000),
+      cache: "no-store",
+    });
 
     if (!response.ok) {
       const errorBody = await response.text();
 
-      console.error("IPinfo request failed:", {
+      console.error("ipapi.is request failed:", {
         status: response.status,
         message: errorBody.slice(0, 500),
       });
 
-      return denied(
-        503,
-        "Access verification is temporarily unavailable.",
-      );
+      return denied(503, "Access verification is temporarily unavailable.");
     }
 
     const data: {
-      is_anonymous?: boolean;
-      is_hosting?: boolean;
+      is_vpn?: boolean | string;
+      is_proxy?: boolean;
+      is_tor?: boolean;
+      is_datacenter?: boolean;
     } = await response.json();
 
     if (
-      data.is_anonymous === true ||
-      data.is_hosting === true
+      data.is_vpn ||
+      data.is_proxy === true ||
+      data.is_tor === true ||
+      data.is_datacenter === true
     ) {
       return denied(
         403,
-        "VPNs, proxies, and anonymous network connections are not permitted.",
+        "VPNs, proxies, Tor, and hosting network connections are not permitted.",
       );
     }
 
     return next();
   } catch (error) {
-    console.error("IPinfo verification failed:", error);
+    console.error("ipapi.is verification failed:", error);
 
-    return denied(
-      503,
-      "Access verification is temporarily unavailable.",
-    );
+    return denied(503, "Access verification is temporarily unavailable.");
   }
 }
