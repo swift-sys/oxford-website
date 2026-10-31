@@ -14,6 +14,7 @@ import Support from "./pages/Support";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
+import Admin from "./pages/Admin";
 
 function PageViewTracker() {
   const location = useLocation();
@@ -33,6 +34,13 @@ export default function App() {
   useEffect(() => {
     return disableDevTools();
   }, []);
+
+  const isAdminDomain =
+    window.location.hostname.toLowerCase() === "admin.central-london.xyz";
+
+  if (isAdminDomain) {
+    return <Admin />;
+  }
 
   return (
     <BrowserRouter>
