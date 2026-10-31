@@ -6,7 +6,10 @@ export const config = {
   matcher: "/:path*",
 };
 
-const redis = Redis.fromEnv();
+const redis = new Redis({
+  url: process.env.clrpc_KV_REST_API_URL!,
+  token: process.env.clrpc_KV_REST_API_TOKEN!,
+});
 
 function getClientIp(request: Request): string | null {
   const rawIp =
@@ -79,6 +82,14 @@ export default async function middleware(
   }
 
   try {
+    const redisUrl = process.env.clrpc_KV_REST_API_URL;
+    const redisToken = process.env.clrpc_KV_REST_API_TOKEN;
+
+    if (!redisUrl || !redisToken) {
+      console.error("Redis environment variables are missing");
+      return denied(503, "Access verification is temporarily unavailable.");
+    }
+
     const allowed = await redis.sismember("vpn:allowlist", ip);
 
     if (allowed) {
