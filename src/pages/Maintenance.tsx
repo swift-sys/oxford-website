@@ -1,55 +1,23 @@
-import { useState } from "react";
 import "../styles/maintenance.css";
 
 export default function Maintenance() {
-  const [testStatus, setTestStatus] = useState("");
-
-  async function testDiscordWebhook() {
-    setTestStatus("Sending test...");
-
-    try {
-      const response = await fetch("/api/page-view", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          visitorId: "manual-test",
-          url: window.location.pathname,
-          title: "Discord Webhook Test",
-          referrer: document.referrer || "Manual test",
-          timestamp: new Date().toISOString(),
-        }),
-      });
-
-      const result = await response.text();
-
-      if (!response.ok) {
-        setTestStatus(`Failed (${response.status}): ${result}`);
-        return;
-      }
-
-      setTestStatus(`API responded successfully: ${result}`);
-    } catch (error) {
-      setTestStatus(
-        `Request error: ${error instanceof Error ? error.message : "Unknown error"}`,
-      );
-    }
-  }
-
   return (
     <main className="maintenance-page">
+      {/* Background */}
       <div className="maintenance-background" />
       <div className="maintenance-overlay" />
       <div className="maintenance-grid" />
 
+      {/* Decorative lighting */}
       <div className="maintenance-glow maintenance-glow-one" />
       <div className="maintenance-glow maintenance-glow-two" />
 
+      {/* Oxford Roleplay Logo */}
       <div className="maintenance-corner-logo">
         <img src="/clrpc_wm.png" alt="Oxford Roleplay" />
       </div>
 
+      {/* Main Content */}
       <section className="maintenance-content">
         <div className="maintenance-accent-line" />
 
@@ -70,25 +38,12 @@ export default function Maintenance() {
         <p className="maintenance-footer">
           Thank you for your patience.
         </p>
-
-        <button
-          type="button"
-          onClick={testDiscordWebhook}
-          disabled={testStatus === "Sending test..."}
-          className="discord-test-button"
-        >
-          Test Discord Webhook
-        </button>
-
-        {testStatus && (
-          <p role="status" aria-live="polite">
-            {testStatus}
-          </p>
-        )}
       </section>
 
+      {/* Bottom Accent */}
       <div className="maintenance-bottom-accent" />
 
+      {/* Developer Watermark */}
       <div className="maintenance-watermark">
         Coded by{" "}
         <a
