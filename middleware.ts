@@ -65,6 +65,7 @@ export default async function middleware(
   const ip = getClientIp(request);
 
   if (!ip) {
+    console.error("Could not determine visitor IP");
     return denied(403, "We could not verify your IP address.");
   }
 
@@ -85,6 +86,7 @@ export default async function middleware(
     const allowed = await redis.sismember("vpn:allowlist", ip);
 
     if (allowed) {
+      console.log("Visitor permitted by Redis allowlist");
       return next();
     }
   } catch (error) {
@@ -126,28 +128,48 @@ export default async function middleware(
     }
 
     const data: {
-      is_vpn?: boolean | string;
+      is_vpn?: boolean;
       is_proxy?: boolean;
       is_tor?: boolean;
       is_datacenter?: boolean;
     } = await response.json();
 
-    if (
-      data.is_vpn ||
+    console.log("IP detection results:", {
+      vpn: data.is_vpn,
+      proxy: data.is_proxy,
+      tor: data.is_tor,
+      datacenter: data.is_datacenter,
+    });
+
+    const blocked =
+      data.is_vpn === true ||
       data.is_proxy === true ||
       data.is_tor === true ||
-      data.is_datacenter === true
-    ) {
+      data.is_datacenter === true;
+
+    if (blocked) {
+      console.log("Visitor blocked by IP detection:", {
+        vpn: data.is_vpn === true,
+        proxy: data.is_proxy === true,
+        tor: data.is_tor === true,
+        datacenter: data.is_datacenter === true,
+      });
+
       return denied(
         403,
         "VPNs, proxies, Tor, and hosting network connections are not permitted.",
       );
     }
 
+    console.log("Visitor passed IP detection");
+
     return next();
   } catch (error) {
     console.error("ipapi.is verification failed:", error);
 
-    return denied(503, "Access verification is temporarily unavailable.");
+    return denied(
+      503,
+      "Access verification is temporarily unavailable.",
+    );
   }
 }
