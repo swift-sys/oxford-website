@@ -60,10 +60,6 @@ export default async function middleware(
   const url = new URL(request.url);
   const hostname = url.hostname.toLowerCase();
 
-  if (hostname === "admin.central-london.xyz") {
-    return next();
-  }
-
   if (
     hostname !== "central-london.xyz" &&
     hostname !== "www.central-london.xyz"
