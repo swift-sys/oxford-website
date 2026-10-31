@@ -19,7 +19,7 @@ function PageViewTracker() {
   const location = useLocation();
 
   useEffect(() => {
-    startAccessTracker();
+    return startAccessTracker();
   }, []);
 
   useEffect(() => {
