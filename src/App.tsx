@@ -35,13 +35,6 @@ export default function App() {
     return disableDevTools();
   }, []);
 
-  const isAdminDomain =
-    window.location.hostname.toLowerCase() === "admin.central-london.xyz";
-
-  if (isAdminDomain) {
-    return <Admin />;
-  }
-
   return (
     <BrowserRouter>
       <PageViewTracker />
@@ -51,6 +44,7 @@ export default function App() {
         <Route path="/support" element={<Support />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/admin-panel" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
