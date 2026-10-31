@@ -21,30 +21,33 @@ export default async function handler(
       return res.status(400).json({ error: "Invalid page URL" });
     }
 
-    const message = {
-      flags: 32768,
-      components: [
-        {
-          type: 10,
-          content: [
-            "# Website Page View",
-            "",
-            `**Page:** ${url}`,
-            `**Title:** ${String(title || "Unknown")}`,
-            `**Visitor ID:** ${String(visitorId || "Unknown")}`,
-            `**Referrer:** ${String(referrer || "Direct visit")}`,
-            `**Time:** ${String(timestamp || new Date().toISOString())}`,
-          ].join("\n").slice(0, 4000),
-        },
-      ],
-    };
+    const discordUrl = new URL(webhookUrl);
+    discordUrl.searchParams.set("with_components", "true");
 
-    const discordResponse = await fetch(webhookUrl, {
+    const content = [
+      "# Website Page View",
+      "",
+      `**Page:** ${url}`,
+      `**Title:** ${String(title || "Unknown")}`,
+      `**Visitor ID:** ${String(visitorId || "Unknown")}`,
+      `**Referrer:** ${String(referrer || "Direct visit")}`,
+      `**Time:** ${String(timestamp || new Date().toISOString())}`,
+    ].join("\n");
+
+    const discordResponse = await fetch(discordUrl.toString(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(message),
+      body: JSON.stringify({
+        flags: 32768,
+        components: [
+          {
+            type: 10,
+            content: content.slice(0, 4000),
+          },
+        ],
+      }),
     });
 
     if (!discordResponse.ok) {
