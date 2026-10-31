@@ -1,4 +1,3 @@
-```ts
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 export default async function handler(
@@ -73,4 +72,3 @@ export default async function handler(
     });
   }
 }
-```
